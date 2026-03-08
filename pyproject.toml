@@ -1,10 +1,21 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dockerizedsimpleserver"
 version = "0.1.0"
-description = "Add your description here"
+description = "Flask status page with MQTT publisher (Docker + pip installable)"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "flask>=3.0,<4.0",
     "paho-mqtt>=2.0,<3.0",
 ]
+
+[project.scripts]
+demo-app = "app:main"
+
+[tool.setuptools]
+py-modules = ["app"]
+packages = ["src"]

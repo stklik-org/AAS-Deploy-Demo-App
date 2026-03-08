@@ -51,6 +51,24 @@ python app.py \
 docker build -t demo-app .
 ```
 
+### GitHub Container Registry (automatic)
+
+This repository includes a workflow at
+`.github/workflows/docker-publish.yml` that builds and pushes the image to:
+
+`ghcr.io/stklik-org/aas-deploy-demo-app`
+
+It runs on:
+- push to `main` (publishes `:latest`, `:main`, `:sha-...`)
+- version tags like `v1.2.3` (publishes tag-based image tags)
+
+Example pull/run:
+
+```bash
+docker pull ghcr.io/stklik-org/aas-deploy-demo-app:latest
+docker run --rm -p 5000:5000 ghcr.io/stklik-org/aas-deploy-demo-app:latest
+```
+
 ### Single container
 
 ```bash
@@ -59,13 +77,13 @@ docker run --rm \
   -e DEMO_COLOR="#dc2626" \
   -e DEMO_MQTT_HOST=192.168.1.100 \
   -e DEMO_MQTT_TOPIC=lab/sensors/temperature \
-  demo-app
+  ghcr.io/stklik-org/aas-deploy-demo-app:latest
 ```
 
 CLI flags take precedence over environment variables, so the following overrides the colour regardless of `DEMO_COLOR`:
 
 ```bash
-docker run --rm -p 5000:5000 -e DEMO_COLOR="#dc2626" demo-app --color "#16a34a"
+docker run --rm -p 5000:5000 -e DEMO_COLOR="#dc2626" ghcr.io/stklik-org/aas-deploy-demo-app:latest --color "#16a34a"
 ```
 
 ### Multiple instances via Docker Compose
@@ -98,3 +116,26 @@ set `DEMO_MQTT_HOST` to the broker service name (typically `mqtt`), not `localho
 |-----------|------------------------------------------|
 | `GET /`   | Status page (hostname + time + config)   |
 | `GET /health` | JSON health-check: `{"status":"ok"}` |
+
+---
+
+## Install via pip (from Git repo)
+
+You can install directly from GitHub:
+
+```bash
+pip install "git+https://github.com/stklik-org/AAS-Deploy-Demo-App.git"
+```
+
+Then run:
+
+```bash
+demo-app
+```
+
+For reproducible installs, pin to a tag or commit:
+
+```bash
+pip install "git+https://github.com/stklik-org/AAS-Deploy-Demo-App.git@v0.1.0"
+pip install "git+https://github.com/stklik-org/AAS-Deploy-Demo-App.git@<commit-sha>"
+```
