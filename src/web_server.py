@@ -175,6 +175,14 @@ HTML_TEMPLATE = """
       word-break: break-all;
     }
 
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      word-break: break-all;
+    }
+
     .label {
       font-size: 0.7rem;
       font-weight: 600;
@@ -224,6 +232,9 @@ HTML_TEMPLATE = """
 
     <div class="label">Hostname</div>
     <h1>{{ hostname }}</h1>
+{% if custom_label %}
+    <h2>{{ custom_label }}</h2>
+{% endif %}
 
     <hr class="divider" />
 
@@ -258,6 +269,7 @@ def create_flask_app(cfg: dict) -> Flask:
         rendered = render_template_string(
             HTML_TEMPLATE,
             hostname=hostname,
+            custom_label=cfg["custom_label"],
             current_time=time.strftime("%Y-%m-%d  %H:%M:%S", time.gmtime()),
             color=accent_color,
             accent_glow=f"{accent_color}33",

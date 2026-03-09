@@ -55,6 +55,7 @@ def build_config(args: argparse.Namespace) -> dict:
         "web_host":      _resolve(args.web_host,      "DEMO_WEB_HOST",      "0.0.0.0"),
         "web_port":      int(_resolve(args.web_port,  "DEMO_WEB_PORT",      5000)),
         "color":         _resolve(args.color,         "DEMO_COLOR",         "#2563eb"),
+        "custom_label":  _resolve(args.custom_label,  "DEMO_CUSTOM_LABEL",  ""),
         "mqtt_host":     mqtt_host,
         "mqtt_port":     mqtt_port,
         "mqtt_user":     _resolve(args.mqtt_user,     "DEMO_MQTT_USER",     ""),
@@ -81,6 +82,8 @@ def build_parser() -> argparse.ArgumentParser:
                      help="TCP port for Flask  [env: DEMO_WEB_PORT]  (default: 5000)")
     web.add_argument("--color",     default=None, metavar="CSS_COLOR",
                      help="Accent colour (hex or basic name, e.g. red/blue)  [env: DEMO_COLOR]  (default: #2563eb)")
+    web.add_argument("--custom-label", default=None, metavar="LABEL",
+                     help="Custom label displayed below hostname  [env: DEMO_CUSTOM_LABEL]  (default: none)")
 
     # MQTT
     mq = p.add_argument_group("MQTT")
